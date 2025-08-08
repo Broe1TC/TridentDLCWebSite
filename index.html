@@ -27,8 +27,40 @@
     .price{font-size:28px;color:var(--accent);font-weight:800}
     .meta{font-size:13px;color:var(--muted)}
     .days{font-weight:700;color:#cfffe0}
-    .buy{margin-top:8px;padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(31,160,85,0.18);color:var(--accent);cursor:pointer;font-weight:700}
+    .buy{margin-top:8px;padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(31,160,85,0.18);color:var(--accent);cursor:pointer;font-weight:700;transition:0.2s}
     .buy:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(31,160,85,0.06)}
+
+    /* соцсети */
+    .socials {
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .social-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid rgba(31,160,85,0.3);
+      background: linear-gradient(135deg, rgba(31,160,85,0.1), rgba(31,160,85,0.05));
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .social-button:hover {
+      background: linear-gradient(135deg, rgba(31,160,85,0.2), rgba(31,160,85,0.1));
+      box-shadow: 0 6px 15px rgba(31,160,85,0.4);
+    }
+    .social-button svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent);
+      flex-shrink: 0;
+    }
 
     footer{margin-top:22px;padding:16px;border-radius:10px;background:transparent;border-top:1px dashed rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center}
     .license{font-size:13px;color:var(--muted)}
@@ -72,18 +104,83 @@
       body{padding:18px;padding-top:72px}
       .logo{width:56px;height:56px}
     }
+
+    /* Модальное окно выбора оплаты */
+    #paymentModal {
+      display: none;
+      position: fixed;
+      top:0; left:0;
+      width:100vw;
+      height:100vh;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    #paymentModal .modal-content {
+      background: var(--panel);
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 320px;
+      width: 90%;
+      color: var(--muted);
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(15,120,60,0.5);
+    }
+    #paymentModal h2 {
+      margin-top: 0;
+      color: #dfffe6;
+      font-weight: 700;
+    }
+    #paymentModal button {
+      margin: 12px 0;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    #payPalBtn {
+      background: var(--accent);
+      color: #021;
+    }
+    #payPalBtn:hover {
+      background: #159e45;
+    }
+    #russianCardsBtn {
+      background: #3a5a7c;
+      color: #eee;
+    }
+    #russianCardsBtn:hover {
+      background: #2c4562;
+    }
+    #closeModal {
+      margin-top: 16px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #closeModal:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <!-- Верхняя полоса -->
   <div class="topbar">
     <div class="topbar-title">TridentDLC</div>
-    <a href="https://t.me/fjeqf" target="_blank">Поддержка</a>
+    <a href="https://t.me/fjeqf" target="_blank" rel="noopener noreferrer">Поддержка</a>
   </div>
 
   <div class="container">
     <header>
-      <img src="logo.png" alt="TridentDLC" class="logo">
+      <img src="logo.png" alt="TridentDLC" class="logo" />
       <div>
         <h1>TridentDLC — Лицензии</h1>
         <p class="lead">Выберите подходящий план.</p>
@@ -97,7 +194,7 @@
           <div class="price">79&nbsp;₽</div>
           <div class="meta">Доступ к TridentDLC на период подписки.</div>
           <div class="days">Количество дней: <strong>30 дней</strong></div>
-          <button class="buy" onclick="buy('Месяц',79,30)">Купить</button>
+          <button class="buy" onclick="buy('Месяц')">Купить</button>
         </section>
 
         <section class="card" aria-labelledby="plan-year">
@@ -105,7 +202,7 @@
           <div class="price">149&nbsp;₽</div>
           <div class="meta">Годовая лицензия с выгодной ценой.</div>
           <div class="days">Количество дней: <strong>365 дней</strong></div>
-          <button class="buy" onclick="buy('Год',149,365)">Купить</button>
+          <button class="buy" onclick="buy('Год')">Купить</button>
         </section>
 
         <section class="card" aria-labelledby="plan-forever">
@@ -116,8 +213,24 @@
           <div class="price">249&nbsp;₽</div>
           <div class="meta">Одна покупка — лицензия на 10 лет.</div>
           <div class="days">Количество дней: <strong>3650 дней</strong></div>
-          <button class="buy" onclick="buy('Навсегда (10 лет)',249,3650)">Купить</button>
+          <button class="buy" onclick="buy('Навсегда (10 лет)')">Купить</button>
         </section>
+      </div>
+
+      <!-- Блок соцсетей -->
+      <div class="socials" aria-label="Социальные сети">
+        <a href="https://discord.gg/Bh6MYk5wT2" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="Discord">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.317 4.3698A19.7913 19.7913 0 0016.177 3c-.21.361-.432.831-.592 1.203a18.43 18.43 0 00-5.17 0 12.687 12.687 0 00-.603-1.203 19.7361 19.7361 0 00-4.157 1.3697C3.872 9.0277 3.314 13.3 3.75 17.487a19.721 19.721 0 005.995 3.05c.488-.672.927-1.379 1.307-2.117a11.3 11.3 0 01-1.734-.8c.145-.11.287-.223.425-.339a10.158 10.158 0 009.838 0c.138.116.28.23.425.339a11.216 11.216 0 01-1.73.8c.38.74.82 1.448 1.31 2.12a19.737 19.737 0 006-3.05c.43-4.192-.314-8.459-2.835-12.384zm-11.52 7.868a1.798 1.798 0 110-3.596 1.798 1.798 0 010 3.596zm7.295 0a1.798 1.798 0 110-3.596 1.798 1.798 0 010 3.596z"/>
+          </svg>
+          Discord
+        </a>
+        <a href="https://t.me/Tridentfoxtgk" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9.5 15.25l-.35 3.05c.5 0 .72-.22.98-.5l2.36-2.25 4.9 3.6c.9.5 1.54.24 1.77-.82L21 7.68c.28-1.25-.46-1.85-1.5-1.5L4.88 11.3c-1.2.47-1.18 1.14-.2 1.46l4.74 1.48 10.99-6.93"/>
+          </svg>
+          Telegram
+        </a>
       </div>
 
       <footer>
@@ -127,20 +240,61 @@
     </main>
   </div>
 
-  <script>
-      function buy(plan) {
-          const links = {
-              "Месяц": "https://www.paypal.com/ncp/payment/SFYVLXBBYY8C6",
-              "Год": "https://www.paypal.com/ncp/payment/9FVTRHP9H7XBL",
-              "Навсегда (10 лет)": "https://www.paypal.com/ncp/payment/E9ED97XXX37AE"
-          };
+  <!-- Модальное окно выбора оплаты -->
+  <div id="paymentModal">
+    <div class="modal-content">
+      <h2>Выберите способ оплаты</h2>
+      <button id="payPalBtn">PayPal (только EUR)</button>
+      <button id="russianCardsBtn">Оплата РФ картами</button>
+      <button id="closeModal">Отмена</button>
+    </div>
+  </div>
 
-          if (links[plan]) {
-              window.location.href = links[plan];
-          } else {
-              alert("Платёжная ссылка не найдена для плана: " + plan);
-          }
+  <script>
+    const links = {
+      "Месяц": "https://www.paypal.com/ncp/payment/SFYVLXBBYY8C6",
+      "Год": "https://www.paypal.com/ncp/payment/9FVTRHP9H7XBL",
+      "Навсегда (10 лет)": "https://www.paypal.com/ncp/payment/E9ED97XXX37AE"
+    };
+
+    let selectedPlan = null;
+    const modal = document.getElementById('paymentModal');
+    const payPalBtn = document.getElementById('payPalBtn');
+    const russianCardsBtn = document.getElementById('russianCardsBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    function buy(plan) {
+      selectedPlan = plan;
+      modal.style.display = 'flex';
+    }
+
+    payPalBtn.onclick = function() {
+      if (selectedPlan && links[selectedPlan]) {
+        const ok = confirm(`Вы собираетесь перейти к оплате "${selectedPlan}" через PayPal. Продолжить?`);
+        if (ok) {
+          window.location.href = links[selectedPlan];
+        }
+      } else {
+        alert('Ссылка оплаты для выбранного плана не найдена');
       }
+    };
+
+    russianCardsBtn.onclick = function() {
+      const ok = confirm('Вы собираетесь перейти к оплате РФ картами через Telegram. Продолжить?');
+      if (ok) {
+        window.location.href = 'https://t.me/george_5556';
+      }
+    };
+
+    closeModalBtn.onclick = function() {
+      modal.style.display = 'none';
+    };
+
+    modal.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
   </script>
 </body>
 </html>
