@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TridentDLC — Лицензии</title>
+  <style>
+    :root{
+      --bg:#07130a; /* very dark green */
+      --panel:#0c2a18; /* dark green panel */
+      --accent:#1fa055; /* bright green */
+      --muted:#9fcfb0;
+      --glass: rgba(255,255,255,0.03);
+      font-family: Inter, Roboto, system-ui, -apple-system, 'Segoe UI', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#031007);color:var(--muted);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+    .container{width:100%;max-width:1100px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#0ea64a);display:flex;align-items:center;justify-content:center;color:#021; font-weight:700;box-shadow:0 6px 20px rgba(15,120,60,0.18)}
+    h1{margin:0;font-size:22px;color:#e6fff0}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{background:linear-gradient(180deg,var(--panel),var(--glass));border:1px solid rgba(31,160,85,0.08);padding:20px;border-radius:14px;box-shadow:0 8px 30px rgba(4,8,6,0.6);display:flex;flex-direction:column;gap:12px}
+    .plan{font-size:18px;color:#dfffe6;font-weight:600}
+    .price{font-size:28px;color:var(--accent);font-weight:800}
+    .meta{font-size:13px;color:var(--muted)}
+    .days{font-weight:700;color:#cfffe0}
+    .buy{margin-top:8px;padding:10px 12px;border-radius:10px;background:transparent;border:1px solid rgba(31,160,85,0.18);color:var(--accent);cursor:pointer;font-weight:700}
+    .buy:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(31,160,85,0.06)}
+
+    footer{margin-top:22px;padding:16px;border-radius:10px;background:transparent;border-top:1px dashed rgba(255,255,255,0.03);display:flex;justify-content:space-between;align-items:center}
+    .license{font-size:13px;color:var(--muted)}
+    .small{font-size:12px;color:#89bfa0}
+
+    /* badge */
+    .badge{background:rgba(31,160,85,0.12);color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+
+    @media (max-width:480px){body{padding:18px}.logo{width:56px;height:56px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="logo.png" alt="TridentDLC" class="logo">
+      <div>
+        <h1>TridentDLC — Лицензии</h1>
+        <p class="lead">Выберите подходящий план.</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="cards">
+        <section class="card" aria-labelledby="plan-month">
+          <div class="plan" id="plan-month">Месяц</div>
+          <div class="price">79&nbsp;₽</div>
+          <div class="meta">Доступ к TridentDLC на период подписки.</div>
+          <div class="days">Количество дней: <strong>30 дней</strong></div>
+          <button class="buy" onclick="buy('Месяц',79,30)">Купить</button>
+        </section>
+
+        <section class="card" aria-labelledby="plan-year">
+          <div class="plan" id="plan-year">Год</div>
+          <div class="price">149&nbsp;₽</div>
+          <div class="meta">Годовая лицензия с выгодной ценой.</div>
+          <div class="days">Количество дней: <strong>365 дней</strong></div>
+          <button class="buy" onclick="buy('Год',149,365)">Купить</button>
+        </section>
+
+        <section class="card" aria-labelledby="plan-forever">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="plan" id="plan-forever">Навсегда (10 лет)</div>
+            <div class="badge">Популярно</div>
+          </div>
+          <div class="price">249&nbsp;₽</div>
+          <div class="meta">Одна покупка — лицензия на 10 лет.</div>
+          <div class="days">Количество дней: <strong>3650 дней</strong></div>
+          <button class="buy" onclick="buy('Навсегда (10 лет)',249,3650)">Купить</button>
+        </section>
+      </div>
+
+      <footer>
+        <div class="license">Лицензия — <strong>Егор Спінчевський</strong></div>
+        <div class="small">TridentDLC &middot; 2025</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+      function buy(plan) {
+          const links = {
+              "Месяц": "https://www.paypal.com/ncp/payment/SFYVLXBBYY8C6",
+              "Год": "https://www.paypal.com/ncp/payment/9FVTRHP9H7XBL",
+              "Навсегда (10 лет)": "https://www.paypal.com/ncp/payment/E9ED97XXX37AE"
+          };
+
+          if (links[plan]) {
+              window.location.href = links[plan];
+          } else {
+              alert("Платёжная ссылка не найдена для плана: " + plan);
+          }
+      }
+  </script>
+
+</body>
+</html>
